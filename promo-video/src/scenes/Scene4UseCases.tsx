@@ -13,11 +13,11 @@ export const Scene4UseCases: React.FC = () => {
     const { fps } = useVideoConfig();
 
     return (
-        <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", backgroundColor: "#000", padding: "80px" }}>
+        <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", backgroundColor: "var(--background)", padding: "80px" }}>
             <h2
                 style={{
                     fontSize: 60,
-                    color: "#fff",
+                    color: "var(--foreground)",
                     marginBottom: 60,
                     fontWeight: 700,
                     letterSpacing: "-0.02em",
@@ -48,13 +48,13 @@ export const Scene4UseCases: React.FC = () => {
                         <div
                             key={i}
                             style={{
-                                backgroundColor: "#09090b",
-                                border: "1px solid #27272a",
+                                backgroundColor: "var(--card)",
+                                border: "1px solid var(--border)",
                                 padding: "24px 48px",
                                 borderRadius: 999,
                                 fontSize: 32,
                                 fontWeight: 500,
-                                color: "#fafafa",
+                                color: "var(--foreground)",
                                 boxShadow: "0 0 30px rgba(255,255,255,0.02)",
                                 transform: `scale(${scale})`,
                                 opacity

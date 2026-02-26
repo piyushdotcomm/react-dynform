@@ -39,7 +39,7 @@ export const Scene2Problem: React.FC = () => {
   });
 
   return (
-    <AbsoluteFill style={{ flexDirection: "row", padding: 60, gap: 40, backgroundColor: "#000" }}>
+    <AbsoluteFill style={{ flexDirection: "row", padding: 60, gap: 40, backgroundColor: "var(--background)" }}>
       {/* Left side: The messy way */}
       <div
         style={{
@@ -52,11 +52,11 @@ export const Scene2Problem: React.FC = () => {
       >
         <pre
           style={{
-            backgroundColor: "#09090b",
+            backgroundColor: "var(--card)",
             padding: 40,
             borderRadius: 12,
-            border: "1px solid #27272a",
-            color: "#71717a", // Strikethrough/faded look
+            border: "1px solid var(--border)",
+            color: "var(--muted-foreground)", // Strikethrough/faded look
             fontSize: 28,
             overflow: "hidden",
             flex: 1,
@@ -80,13 +80,13 @@ export const Scene2Problem: React.FC = () => {
       >
         <pre
           style={{
-            backgroundColor: "#09090b",
+            backgroundColor: "var(--card)",
             padding: 40,
             borderRadius: 12,
-            color: "#fafafa",
+            color: "var(--foreground)",
             fontSize: 32,
             overflow: "hidden",
-            border: "1px solid #e4e4e7", // High contrast white border for focus
+            border: "1px solid var(--primary)", // High contrast primary border for focus
             boxShadow: "0 0 40px rgba(255,255,255,0.05)",
             flex: 1,
             lineHeight: 1.6,

@@ -23,27 +23,27 @@ export const Scene5Outro: React.FC = () => {
     );
 
     return (
-        <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", backgroundColor: "#000", opacity }}>
+        <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", backgroundColor: "var(--background)", opacity }}>
             <div
                 style={{
-                    backgroundColor: "#09090b",
+                    backgroundColor: "var(--card)",
                     padding: "32px 64px",
                     borderRadius: 12,
-                    border: "1px solid #27272a",
+                    border: "1px solid var(--border)",
                     display: "flex",
                     alignItems: "center",
                     gap: 20,
                     boxShadow: "0 0 50px rgba(255,255,255,0.03)"
                 }}
             >
-                <span style={{ color: "#71717a", fontSize: 40, fontFamily: "'JetBrains Mono', monospace" }}>$</span>
-                <span style={{ color: "#fafafa", fontSize: 40, fontFamily: "'JetBrains Mono', monospace", minWidth: 950 }}>
+                <span style={{ color: "var(--muted-foreground)", fontSize: 40, fontFamily: "'JetBrains Mono', monospace" }}>$</span>
+                <span style={{ color: "var(--foreground)", fontSize: 40, fontFamily: "'JetBrains Mono', monospace", minWidth: 950 }}>
                     {textToShow}
                     <span style={{
                         display: "inline-block",
                         width: 20,
                         height: 40,
-                        backgroundColor: "#fff",
+                        backgroundColor: "var(--foreground)",
                         verticalAlign: "bottom",
                         marginLeft: 8,
                         opacity: frame % 20 < 10 ? 1 : 0
@@ -53,7 +53,7 @@ export const Scene5Outro: React.FC = () => {
 
             <div style={{
                 marginTop: 60,
-                color: "#a1a1aa",
+                color: "var(--muted-foreground)",
                 fontSize: 28,
                 letterSpacing: "0.05em",
                 opacity: interpolate(frame, [fps * 1.5, fps * 2], [0, 1], { extrapolateRight: "clamp" })

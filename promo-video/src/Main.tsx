@@ -16,7 +16,7 @@ export const Main: React.FC = () => {
     // Scene 5 Out: 13.5s - 20s (195f)
 
     return (
-        <AbsoluteFill style={{ backgroundColor: "#000", color: "#fff", display: "flex", justifyContent: "center", alignItems: "center" }}>
+        <AbsoluteFill style={{ backgroundColor: "var(--background)", color: "var(--foreground)", display: "flex", justifyContent: "center", alignItems: "center" }}>
             <Sequence from={0} durationInFrames={75}>
                 <Scene1Intro />
             </Sequence>

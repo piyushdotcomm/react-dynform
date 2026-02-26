@@ -28,7 +28,7 @@ export const Scene3Features: React.FC = () => {
     const { fps } = useVideoConfig();
 
     return (
-        <AbsoluteFill style={{ justifyContent: "center", padding: "80px 120px", backgroundColor: "#000" }}>
+        <AbsoluteFill style={{ justifyContent: "center", padding: "80px 120px", backgroundColor: "var(--background)" }}>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 32, width: "100%", height: "100%" }}>
                 {features.map((feature, i) => {
                     const delay = i * 12; // FASTER stagger
@@ -49,8 +49,8 @@ export const Scene3Features: React.FC = () => {
                         <div
                             key={i}
                             style={{
-                                backgroundColor: "#09090b",
-                                border: "1px solid #27272a",
+                                backgroundColor: "var(--card)",
+                                border: "1px solid var(--border)",
                                 padding: 48,
                                 borderRadius: 16,
                                 transform: `scale(${scale}) translateY(${interpolate(opacity, [0, 1], [40, 0])}px)`,
@@ -61,16 +61,16 @@ export const Scene3Features: React.FC = () => {
                             }}
                         >
                             <div style={{
-                                width: 64, height: 64, borderRadius: 12, backgroundColor: "#18181b",
-                                border: "1px solid #27272a", display: "flex", alignItems: "center", justifyContent: "center",
-                                fontSize: 32, marginBottom: 24, color: "#fff"
+                                width: 64, height: 64, borderRadius: 12, backgroundColor: "var(--muted)",
+                                border: "1px solid var(--border)", display: "flex", alignItems: "center", justifyContent: "center",
+                                fontSize: 32, marginBottom: 24, color: "var(--foreground)"
                             }}>
                                 {feature.icon}
                             </div>
-                            <h3 style={{ fontSize: 36, fontWeight: 600, color: "#fafafa", margin: "0 0 16px 0", letterSpacing: "-0.02em" }}>
+                            <h3 style={{ fontSize: 36, fontWeight: 600, color: "var(--foreground)", margin: "0 0 16px 0", letterSpacing: "-0.02em" }}>
                                 {feature.title}
                             </h3>
-                            <p style={{ fontSize: 24, color: "#a1a1aa", lineHeight: 1.5, margin: 0 }}>
+                            <p style={{ fontSize: 24, color: "var(--muted-foreground)", lineHeight: 1.5, margin: 0 }}>
                                 {feature.desc}
                             </p>
                         </div>
