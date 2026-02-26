@@ -1,6 +1,6 @@
 {
     "name": "react-dynform",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "description": "A schema-driven dynamic form engine for React. Render fully functional forms from a JSON schema — with conditional logic, multi-step wizards, validation, and a plugin system.",
     "type": "module",
     "main": "./dist/index.js",
