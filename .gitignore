@@ -4,3 +4,10 @@ coverage/
 *.log
 .env
 .DS_Store
+
+# Agent / AI tooling
+.agents/
+.agent/
+_agents/
+_agent/
+.gemini/
