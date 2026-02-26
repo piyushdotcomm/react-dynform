@@ -1,6 +1,7 @@
-import { motion } from "framer-motion";
+import React from "react";
 import { Circle } from "lucide-react";
 import { cn } from "../../lib/utils";
+import { useCurrentFrame, useVideoConfig, interpolate, Easing } from "remotion";
 
 function ElegantShape({
     className,
@@ -17,40 +18,53 @@ function ElegantShape({
     rotate?: number;
     gradient?: string;
 }) {
+    const frame = useCurrentFrame();
+    const { fps } = useVideoConfig();
+
+    // Framer motion params
+    // duration: 2.4s, delay
+    // ease: [0.23, 0.86, 0.39, 0.96] cubic-bezier
+    const startFrame = delay * fps;
+    const durationFrames = 2.4 * fps;
+    const opacityDurationFrames = 1.2 * fps;
+
+    const progress = interpolate(frame - startFrame, [0, durationFrames], [0, 1], {
+        extrapolateLeft: "clamp",
+        extrapolateRight: "clamp",
+        easing: Easing.bezier(0.23, 0.86, 0.39, 0.96),
+    });
+
+    const opacity = interpolate(frame - startFrame, [0, opacityDurationFrames], [0, 1], {
+        extrapolateLeft: "clamp",
+        extrapolateRight: "clamp",
+    });
+
+    // motion.div y: [-150, 0], rotate: [rotate - 15, rotate]
+    const y = interpolate(progress, [0, 1], [-150, 0]);
+    const r = interpolate(progress, [0, 1], [rotate - 15, rotate]);
+
+    // Floating animation
+    // transition: { duration: 12, repeat: Infinity, ease: "easeInOut" }
+    // y: [0, 15, 0]
+    const floatProgress = (frame % (12 * fps)) / (12 * fps); // 0 to 1 over 12 seconds
+    // Map to a sine wave starting at -Math.PI/2 to get a smooth 0 -> 1 -> 0 curve
+    const floatY = (Math.sin(floatProgress * Math.PI * 2 - Math.PI / 2) + 1) / 2 * 15;
+
     return (
-        <motion.div
-            initial={{
-                opacity: 0,
-                y: -150,
-                rotate: rotate - 15,
-            }}
-            animate={{
-                opacity: 1,
-                y: 0,
-                rotate: rotate,
-            }}
-            transition={{
-                duration: 2.4,
-                delay,
-                ease: [0.23, 0.86, 0.39, 0.96] as [number, number, number, number],
-                opacity: { duration: 1.2 },
-            }}
+        <div
             className={cn("absolute", className)}
+            style={{
+                opacity,
+                transform: `translateY(${y}px) rotate(${r}deg)`,
+            }}
         >
-            <motion.div
-                animate={{
-                    y: [0, 15, 0],
-                }}
-                transition={{
-                    duration: 12,
-                    repeat: Number.POSITIVE_INFINITY,
-                    ease: "easeInOut",
-                }}
+            <div
+                className="relative"
                 style={{
                     width,
                     height,
+                    transform: `translateY(${floatY}px)`,
                 }}
-                className="relative"
             >
                 <div
                     className={cn(
@@ -63,8 +77,8 @@ function ElegantShape({
                         "after:bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.2),transparent_70%)]"
                     )}
                 />
-            </motion.div>
-        </motion.div>
+            </div>
+        </div>
     );
 }
 
@@ -77,17 +91,24 @@ function HeroGeometric({
     title1?: string;
     title2?: string;
 }) {
-    const fadeUpVariants = {
-        hidden: { opacity: 0, y: 30 },
-        visible: (i: number) => ({
-            opacity: 1,
-            y: 0,
-            transition: {
-                duration: 1,
-                delay: 0.5 + i * 0.2,
-                ease: [0.25, 0.4, 0.25, 1] as [number, number, number, number],
-            },
-        }),
+    const frame = useCurrentFrame();
+    const { fps } = useVideoConfig();
+
+    const getFadeUpStyles = (i: number) => {
+        // delay: 0.5 + i * 0.2
+        const delayFrames = (0.5 + i * 0.2) * fps;
+        const durationFrames = 1 * fps;
+
+        const progress = interpolate(frame - delayFrames, [0, durationFrames], [0, 1], {
+            extrapolateLeft: "clamp",
+            extrapolateRight: "clamp",
+            easing: Easing.bezier(0.25, 0.4, 0.25, 1),
+        });
+
+        return {
+            opacity: progress,
+            transform: `translateY(${interpolate(progress, [0, 1], [30, 0])}px)`,
+        };
     };
 
     return (
@@ -143,25 +164,17 @@ function HeroGeometric({
 
             <div className="relative z-10 container mx-auto px-4 md:px-6">
                 <div className="max-w-3xl mx-auto text-center">
-                    <motion.div
-                        custom={0}
-                        variants={fadeUpVariants}
-                        initial="hidden"
-                        animate="visible"
+                    <div
+                        style={getFadeUpStyles(0)}
                         className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.03] border border-white/[0.08] mb-8 md:mb-12"
                     >
                         <Circle className="h-2 w-2 fill-rose-500/80" />
                         <span className="text-sm text-white/60 tracking-wide">
                             {badge}
                         </span>
-                    </motion.div>
+                    </div>
 
-                    <motion.div
-                        custom={1}
-                        variants={fadeUpVariants}
-                        initial="hidden"
-                        animate="visible"
-                    >
+                    <div style={getFadeUpStyles(1)}>
                         <h1 className="text-4xl sm:text-6xl md:text-8xl font-bold mb-6 md:mb-8 tracking-tight">
                             <span className="bg-clip-text text-transparent bg-gradient-to-b from-white to-white/80">
                                 {title1}
@@ -175,18 +188,13 @@ function HeroGeometric({
                                 {title2}
                             </span>
                         </h1>
-                    </motion.div>
+                    </div>
 
-                    <motion.div
-                        custom={2}
-                        variants={fadeUpVariants}
-                        initial="hidden"
-                        animate="visible"
-                    >
+                    <div style={getFadeUpStyles(2)}>
                         <p className="text-base sm:text-lg md:text-xl text-white/40 mb-8 leading-relaxed font-light tracking-wide max-w-xl mx-auto px-4">
                             The schema-driven dynamic form engine. Built directly for your custom UI components.
                         </p>
-                    </motion.div>
+                    </div>
                 </div>
             </div>
 
