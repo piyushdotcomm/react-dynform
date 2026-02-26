@@ -163,19 +163,19 @@ function HeroGeometric({
             </div>
 
             <div className="relative z-10 container mx-auto px-4 md:px-6">
-                <div className="max-w-3xl mx-auto text-center">
+                <div className="max-w-5xl mx-auto text-center mt-20">
                     <div
                         style={getFadeUpStyles(0)}
-                        className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.03] border border-white/[0.08] mb-8 md:mb-12"
+                        className="inline-flex items-center gap-4 px-6 py-3 rounded-full bg-white/[0.03] border border-white/[0.08] mb-12"
                     >
-                        <Circle className="h-2 w-2 fill-rose-500/80" />
-                        <span className="text-sm text-white/60 tracking-wide">
+                        <Circle className="h-4 w-4 fill-rose-500/80" />
+                        <span className="text-2xl text-white/60 tracking-wide">
                             {badge}
                         </span>
                     </div>
 
                     <div style={getFadeUpStyles(1)}>
-                        <h1 className="text-4xl sm:text-6xl md:text-8xl font-bold mb-6 md:mb-8 tracking-tight">
+                        <h1 className="text-[100px] leading-[1.1] font-bold mb-12 tracking-tight">
                             <span className="bg-clip-text text-transparent bg-gradient-to-b from-white to-white/80">
                                 {title1}
                             </span>
@@ -191,7 +191,7 @@ function HeroGeometric({
                     </div>
 
                     <div style={getFadeUpStyles(2)}>
-                        <p className="text-base sm:text-lg md:text-xl text-white/40 mb-8 leading-relaxed font-light tracking-wide max-w-xl mx-auto px-4">
+                        <p className="text-4xl text-white/40 mb-8 leading-relaxed font-light tracking-wide max-w-4xl mx-auto px-4">
                             The schema-driven dynamic form engine. Built directly for your custom UI components.
                         </p>
                     </div>
