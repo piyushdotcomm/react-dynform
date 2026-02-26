@@ -8,12 +8,12 @@ import { Scene5Outro } from "./scenes/Scene5Outro";
 export const Main: React.FC = () => {
     const { fps } = useVideoConfig(); // 30 fps
 
-    // Total 510 frames (17s) - Slightly longer to show the outro
+    // Total 600 frames (20s) - Added 3s to the outro
     // Scene 1 Intro: 0 - 2.5s (75f)
     // Scene 2 Code: 2.5s - 7s (135f)
     // Scene 3 Grid: 7s - 10.5s (105f)
     // Scene 4 Uses: 10.5s - 13.5s (90f)
-    // Scene 5 Out: 13.5s - 17s (105f)
+    // Scene 5 Out: 13.5s - 20s (195f)
 
     return (
         <AbsoluteFill style={{ backgroundColor: "#000", color: "#fff", display: "flex", justifyContent: "center", alignItems: "center" }}>
@@ -33,7 +33,7 @@ export const Main: React.FC = () => {
                 <Scene4UseCases />
             </Sequence>
 
-            <Sequence from={405} durationInFrames={105}>
+            <Sequence from={405} durationInFrames={195}>
                 <Scene5Outro />
             </Sequence>
         </AbsoluteFill>
