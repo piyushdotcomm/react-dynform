@@ -50,10 +50,10 @@ export const Scene3Features: React.FC = () => {
         easing: Easing.bezier(0.25, 0.4, 0.25, 1),
     });
 
-    // Each card gets "hovered" for ~18 frames with 4-frame overlap
-    const hoverDuration = 18;
-    const hoverGap = 14;
-    const hoverStart = 20; // Start hovering after fade-in
+    // Each card gets "hovered" for ~45 frames (1.5s) with generous slow pacing
+    const hoverDuration = 45;
+    const hoverGap = 35;
+    const hoverStart = 30; // Start hovering after fade-in
 
     let activeIndex = -1;
     let activeProgress = 0;
