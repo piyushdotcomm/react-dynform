@@ -1,100 +1,91 @@
 import { interpolate, useCurrentFrame, useVideoConfig, AbsoluteFill, Easing } from "remotion";
+import { CodeComparison } from "../components/ui/code-comparison";
 
-const badCode = `// The Old Way
-export function Form() {
+const beforeCode = `// The Old Way — manual state for every field
+export function RegistrationForm() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [age, setAge] = useState("");
   const [showEmail, setShowEmail] = useState(false);
-  // ... 50 more lines of state & effects
+  const [errors, setErrors] = useState({});
+
+  useEffect(() => {
+    if (name.length >= 3) setShowEmail(true);
+    else setShowEmail(false);
+  }, [name]);
+
+  const validate = () => {
+    const errs = {};
+    if (!name) errs.name = "Required";
+    if (showEmail && !email) errs.email = "Required";
+    return errs;
+  };
+
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
       <input value={name} onChange={...} />
       {showEmail && <input value={email} />}
+      <input value={age} onChange={...} />
     </form>
-  )
-}
-`;
+  );
+}`;
 
-const goodCode = `// The react-dynform Way
+const afterCode = `// The react-dynform Way — one schema
 const schema = {
-  name: { type: "string", required: true },
-  email: { 
-    type: "string", 
-    visibleIf: { field: "name", minLength: 3 }
-  }
+  name: {
+    type: "string",
+    required: true,
+  },
+  email: {
+    type: "string",
+    visibleIf: {
+      field: "name",
+      minLength: 3,
+    },
+  },
+  age: {
+    type: "number",
+    min: 18,
+  },
 };
 
-<SchemaParser schema={schema} />
-`;
+<DynForm schema={schema} />`;
 
 export const Scene2Problem: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
-  // Slower slide left/right
-  const splitProgress = interpolate(frame, [30, 90], [0, 1], {
+  const fadeIn = interpolate(frame, [0, 15], [0, 1], {
+    extrapolateRight: "clamp",
+    extrapolateLeft: "clamp",
+  });
+
+  const scale = interpolate(frame, [0, 20], [0.95, 1], {
     extrapolateRight: "clamp",
     extrapolateLeft: "clamp",
     easing: Easing.bezier(0.34, 1.56, 0.64, 1),
   });
 
   return (
-    <AbsoluteFill style={{ flexDirection: "row", padding: 60, gap: 40, backgroundColor: "var(--background)" }}>
-      {/* Left side: The messy way */}
+    <AbsoluteFill
+      className="flex items-center justify-center bg-[#030303]"
+      style={{ padding: 60 }}
+    >
       <div
         style={{
-          flex: 1,
-          display: "flex",
-          flexDirection: "column",
-          opacity: interpolate(splitProgress, [0, 0.5], [1, 0.3]),
-          transform: `translateX(${interpolate(splitProgress, [0, 1], [0, -40])}px)`
+          opacity: fadeIn,
+          transform: `scale(${scale})`,
+          width: "100%",
         }}
       >
-        <pre
-          style={{
-            backgroundColor: "var(--card)",
-            padding: 40,
-            borderRadius: 12,
-            border: "1px solid var(--border)",
-            color: "var(--muted-foreground)", // Strikethrough/faded look
-            fontSize: 28,
-            overflow: "hidden",
-            flex: 1,
-            lineHeight: 1.6,
-            margin: 0
-          }}
-        >
-          {badCode.trim()}
-        </pre>
-      </div>
-
-      {/* Right side: The clean way */}
-      <div
-        style={{
-          flex: 1,
-          display: "flex",
-          flexDirection: "column",
-          opacity: interpolate(splitProgress, [0, 1], [0, 1]),
-          transform: `translateX(${interpolate(splitProgress, [0, 1], [40, 0])}px)`
-        }}
-      >
-        <pre
-          style={{
-            backgroundColor: "var(--card)",
-            padding: 40,
-            borderRadius: 12,
-            color: "var(--foreground)",
-            fontSize: 32,
-            overflow: "hidden",
-            border: "1px solid var(--primary)", // High contrast primary border for focus
-            boxShadow: "0 0 40px rgba(255,255,255,0.05)",
-            flex: 1,
-            lineHeight: 1.6,
-            margin: 0
-          }}
-        >
-          {goodCode.trim()}
-        </pre>
+        <CodeComparison
+          beforeCode={beforeCode}
+          afterCode={afterCode}
+          language="typescript"
+          filename="form.tsx"
+          beforeLabel="before"
+          afterLabel="after"
+        />
       </div>
     </AbsoluteFill>
   );
